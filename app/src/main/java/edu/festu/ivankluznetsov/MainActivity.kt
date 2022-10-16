@@ -12,13 +12,17 @@ import com.google.firebase.ktx.Firebase
 import edu.festu.ivankluznetsov.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    //Экземпляр объекта для доступа к аутентификации
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         auth = Firebase.auth
+
         binding.button.setOnClickListener {
             signIn(binding.emailField.text.toString(),binding.passField.text.toString())
         }
@@ -26,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Проверка того, не зашел ли пользователь в приложение ранее
         val currentUser = auth.currentUser
         if(currentUser != null) {
             reload()
@@ -74,6 +78,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun reload(){
 
+    }
+
+    private fun signOut() {
+        auth.signOut()
     }
 
     companion object {
